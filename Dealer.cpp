@@ -24,7 +24,7 @@ Dealer::~Dealer()
 bool Dealer::play(Shoe* pShoe)
 {
 	//スコアが16以下の場合hitを続ける
-	while (calcScore() < 17 && calcScore() > 0) {
+	while (continueGame("")) {
 		//ヒットする
 		hit(pShoe);
 		cout << "hit" << endl;
@@ -34,6 +34,5 @@ bool Dealer::play(Shoe* pShoe)
 		showHand();
 		cout << "====================" << endl;
 	}
-	if (calcScore() <= 0) return false;
-	return true;
+	return continueGame("");
 }
