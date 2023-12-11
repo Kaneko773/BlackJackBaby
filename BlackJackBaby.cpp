@@ -9,37 +9,81 @@
 
 using namespace std;
 
-static void showResult(Player& player, Dealer& dealer)
+static void showAll(Player(&player)[4], Dealer& dealer);
+
+static void showResult(Player(&p)[4], Dealer& d)
 {
     cout << "============================" << endl;
     cout << "            result          " << endl;
     cout << "============================" << endl;
-    cout << "============================" << endl;
-    cout << player.getName() << endl;
-    player.showHand();
-    cout << "============================" << endl;
-    cout << dealer.getName() << endl;
-    dealer.showHand();
-    cout << "============================" << endl;
-
-    if (player.calcScore() > dealer.calcScore()) {
-        cout << "Player Win!" << endl;
-    }
-    else if (player.calcScore() < dealer.calcScore()) {
-        cout << "Player Lose" << endl;
-    }
-    else {
-        cout << "Push" << endl;
+    showAll(p, d);
+    for (int i = 0; i < 4; ++i) {
+        if (p[i].calcScore() > d.calcScore()) {
+            printf("%-29s", "Win!");
+        }
+        else if (p[i].calcScore() < d.calcScore()) {
+            printf("%-29s", "Lose");
+        }
+        else {
+            printf("%-29s", "Push");
+        }
     }
 }
 
 
-static void showHand(Person& p)
+static void showHand(Person& person)
 {
     cout << "======================" << endl;
-    cout << p.getName() << endl;
-    p.showHand();
+    cout << person.getName() << endl;
+    person.showHand();
     cout << "======================" << endl;
+}
+
+static void showAll(Player(&player)[4], Dealer& dealer)
+{
+    cout << "======================" << endl;
+    cout << "Dealer" << endl;
+    cout << dealer.getName() << endl;
+    dealer.showHand();
+    cout << "======================" << endl;
+    for (int i = 0; i < 4; ++i) {
+        cout << "============================ " << flush;
+    }cout << endl;
+    cout << "Players" << endl;
+    for (int i = 0; i < 4; ++i) {
+        printf("%-29s", player[i].getName());
+    }cout << endl;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 7; ++j) {
+            if (j < player[i].get_cardNum()) {
+                player[i].showOneCard(j);
+            }
+            else {
+                cout << "    " << flush;
+            }
+        }
+        cout << " ";
+    }
+    cout << endl;
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 7; j < 14; ++j) {
+            if (j < player[i].get_cardNum()) {
+                player[i].showOneCard(j);
+            }
+            else {
+                cout << "    " << flush;
+            }
+        }
+        cout << " ";
+    }
+    cout << endl;
+    for (int i = 0; i < 4; ++i) {
+        printf("score:%-23d", player[i].calcScore());
+    }
+    cout << endl;
+    for (int i = 0; i < 4; ++i) {
+        cout << "============================ " << flush;
+    }cout << endl;
 }
 
 int main()
@@ -47,34 +91,26 @@ int main()
     srand(time(NULL));
 
     Dealer d("suga D");
-    Player p("hosaka");
+    Player p[4] = { "hosaka", "tokita", "nagasaka", "kaenko" };
     Shoe shoe;
-    for (int i = 0; i < 2; i++)
-    {
-        p.hit(&shoe);
-    }
-    showHand(p);
+    int burstNum = 0;
 
     d.hit(&shoe);
-    showHand(d);
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 2; j++)
+        {
+            p[i].hit(&shoe);
+        }
+    }
+    showAll(p, d);
     d.hit(&shoe);
 
-    // まずはプレイヤーのターン処理
-    if (p.play(&shoe) == true)
-    {
-        // プレイヤーがスタンドした場合の処理
-        // 
-        // 次はディーラーのターン処理
-        d.play(&shoe);
-
-        // 勝敗判定・結果表示をする
-        showResult(p, d);
+    for (int i = 0; i < 4; ++i) {
+        showHand(p[i]);
+        if (!p[i].playBase(&shoe)) ++burstNum;
     }
-    else
-    {
-        cout << "バーストしたのでおぬしの負けです。" << endl;
-    }
-
+    if(burstNum < 4)d.playBase(&shoe);
+    showResult(p, d);
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー

@@ -15,10 +15,10 @@ Player::~Player()
 
 }
 // ターン処理 false:バースト、true:スタンド
-bool Player::play(Shoe* pShoe)
+bool Player::playBase(Shoe* pShoe)
 {
 	//バーストするまでループ処理
-	while (continueGame("hit")) {
+	while (calcScore() > 0) {
 		cout << "hit or stand >> ";
 
 		//入力
@@ -31,15 +31,15 @@ bool Player::play(Shoe* pShoe)
 
 			//手札の表示
 			cout << "====================" << endl;
-			cout << "player" << endl;
+			cout << getName() << endl;
 			showHand();
 			cout << "====================" << endl;
 		}
 		else if (strcmp(str, "stand") == 0) {
 			//返り値をtrueとして終了
-			return continueGame("stand");
+			return true;
 		}
 	}
 	//バーストしているのでfalseを返して終了
-	return continueGame("");
+	return false;
 }

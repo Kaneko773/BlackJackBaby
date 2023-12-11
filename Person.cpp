@@ -8,7 +8,11 @@
 using namespace std;
 
 Person::Person(const char* pName) {
-	fill_n(_hand, 16, -1);	// 配列を-1で埋める
+	//fill_n(_hand, 16, -1);	// 配列を-1で埋める
+	Card nonCard;//マーク、数字共に -1 が入ってるカード
+	for (int i = 0; i < 16; ++i) {
+		_hand[i] = nonCard;
+	}
 	_cardNum = 0;
 
 	_pName = new char[strlen(pName) + 1];
@@ -29,10 +33,17 @@ const char* Person::getName() const
 	return _pName;
 }
 
+const int Person::get_cardNum() const
+{
+	return _cardNum;
+}
+
 void Person::hit(Shoe* pShoe)
 {
-	int card = pShoe->takeCard();
-	if (card >= 0) {
+	Card nonCard;
+	Card card;
+	card = pShoe->takeCard();
+	if (!(card == nonCard)) {
 		if (_cardNum <= 15) {
 			_hand[_cardNum] = card;
 			_cardNum++;
@@ -54,17 +65,16 @@ void Person::showHand()
 	cout << "hand: ";
 	//配列の最初から最後までを順に表示
 	for (int i = 0; i < _cardNum; i++) {
-		//カードの種類(スペード,ハート,ダイヤ,クラブ)を探索
-		int type = _hand[i] / 13; //デッキごとに分けた後,13で割った数(0-3)で4種類を分割
-
-		//標準出力
-		const char* strType[] = { "s", "h", "d", "c" };
-		cout << strType[type];
-		cout << _hand[i] % 13 + 1 << ' ';
+		_hand[i].Show();
 	}
 	//改行
 	cout << endl;
 	cout << "score: " << calcScore() << endl; //スコアの表示
+}
+
+void Person::showOneCard(int num)
+{
+	_hand[num].Show();
 }
 
 int Person::calcScore()
@@ -80,12 +90,11 @@ int Person::calcScore()
 		cout << "メモリの確保に失敗しました。再起動してください。" << endl;
 		return 0;
 	}
-
 	//手札配列からデータを取得,1-10の値として格納
 	for (int i = 0; i < _cardNum; i++) {
-		if (_hand[i] % 13 < 10) {
+		if (_hand[i].get_number() < 10) {
 			//配列の値が10以下(0-9)であれば1を加えて格納
-			*(data + i) = _hand[i] % 13 + 1;
+			*(data + i) = _hand[i].get_number() + 1;
 		}
 		else {
 			//ここで10を格納しているのは,11-13のカードのこと
@@ -138,25 +147,8 @@ int Person::calcScore()
 	return score;
 }
 
-bool Person::continueGame(const char* selection) {
+bool Person::play(Shoe* pShoe) {
 
-	if (strcmp(selection, "stand") == 0) return true;
-	if (strcmp(selection, "hit") == 0) {
-		if (calcScore() <= 0) {
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
+	return playBase(pShoe);
 
-	if (calcScore() <= 0) {
-		return false;
-	}
-	else if (calcScore() < 17 && calcScore() > 0) {
-		return true;
-	}
-	else {
-		return true;
-	}
 }

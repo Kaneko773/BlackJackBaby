@@ -21,18 +21,19 @@ Dealer::~Dealer()
 }
 
 // ターン処理
-bool Dealer::play(Shoe* pShoe)
+bool Dealer::playBase(Shoe* pShoe)
 {
 	//スコアが16以下の場合hitを続ける
-	while (continueGame("")) {
+	while (calcScore() < 17 && calcScore() > 0) {
 		//ヒットする
 		hit(pShoe);
 		cout << "hit" << endl;
 		//手札の表示
 		cout << "====================" << endl;
-		cout << "dealer" << endl;
+		cout << getName() << endl;
 		showHand();
 		cout << "====================" << endl;
 	}
-	return continueGame("");
+	if(calcScore() <= 0) return false;
+	return true;
 }

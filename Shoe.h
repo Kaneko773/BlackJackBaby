@@ -1,11 +1,12 @@
 #pragma once
 
 #include "common.h"
+#include "Card.h"
 
 class Shoe
 {
 private:
-	int _cardShoe[CARD_NUM];
+	Card _cardShoe[CARD_NUM];
 	int _cardNum;
 
 	void _shuffle();
@@ -14,5 +15,5 @@ public:
 	virtual ~Shoe();
 
 public:
-	int takeCard();	//　カードを１枚返す
+	Card takeCard();	//　カードを１枚返す
 };

@@ -140,12 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BlackJackBaby.cpp" />
+    <ClCompile Include="Card.cpp" />
     <ClCompile Include="Dealer.cpp" />
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shoe.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Card.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="Dealer.h" />
     <ClInclude Include="Person.h" />

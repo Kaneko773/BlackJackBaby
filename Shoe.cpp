@@ -8,9 +8,14 @@ Shoe::Shoe()
 {
 	_cardNum = CARD_NUM;	//カード枚数初期化
 	// カード初期化
-	for (int i = 0; i < CARD_NUM; i++)
+	int i = 0;
+	for (int j = 0; j < MARK_NUM; ++j)
 	{
-		_cardShoe[i] = i;
+		for (int k = 0; k < NUMBER_NUM; ++k) {
+			_cardShoe[i].set_mark(j);
+			_cardShoe[i].set_number(k);
+			++i;
+		}
 	}
 
 	_shuffle();	// シャッフルする
@@ -32,13 +37,14 @@ void Shoe::_shuffle()
 }
 
 // カードがない場合は-1を返します。
-int Shoe::takeCard()
+Card Shoe::takeCard()
 {
+	Card noncard;//マーク、数字共に -1 が入ってるカード
 	// 後ろから引いてく方がロジック的に楽ちんかと。
-	if (_cardNum <= 0) return -1;
+	if (_cardNum <= 0) return noncard;
 	_cardNum--;
-	int card = _cardShoe[_cardNum];
-	_cardShoe[_cardNum] = -1;	// 念のためいれとく（デバッグ用）
+	Card card = _cardShoe[_cardNum];
+	_cardShoe[_cardNum] = noncard;	// 念のためいれとく（デバッグ用）
 
 	return card;
 }

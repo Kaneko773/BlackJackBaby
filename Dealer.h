@@ -11,5 +11,5 @@ public:
 	virtual ~Dealer();
 
 public:
-	bool play(Shoe* pShoe);	// ターン処理
+	bool playBase(Shoe* pShoe);	// ターン処理
 };
