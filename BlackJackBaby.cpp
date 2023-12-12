@@ -107,9 +107,9 @@ int main()
 
     for (int i = 0; i < 4; ++i) {
         showHand(p[i]);
-        if (!p[i].playBase(&shoe)) ++burstNum;
+        if (!p[i].play(&shoe)) ++burstNum;
     }
-    if(burstNum < 4)d.playBase(&shoe);
+    if(burstNum < 4)d.play(&shoe);
     showResult(p, d);
 }
 

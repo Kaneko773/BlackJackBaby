@@ -8,7 +8,6 @@
 using namespace std;
 
 Person::Person(const char* pName) {
-	//fill_n(_hand, 16, -1);	// 配列を-1で埋める
 	Card nonCard;//マーク、数字共に -1 が入ってるカード
 	for (int i = 0; i < 16; ++i) {
 		_hand[i] = nonCard;
