@@ -28,6 +28,7 @@ static void showResult(Player(&p)[4], Dealer& d)
             printf("%-29s", "Push");
         }
     }
+    cout << endl;
 }
 
 
@@ -79,8 +80,7 @@ static void showAll(Player(&player)[4], Dealer& dealer)
     cout << endl;
     for (int i = 0; i < 4; ++i) {
         printf("score:%-23d", player[i].calcScore());
-    }
-    cout << endl;
+    }cout << endl;
     for (int i = 0; i < 4; ++i) {
         cout << "============================ " << flush;
     }cout << endl;

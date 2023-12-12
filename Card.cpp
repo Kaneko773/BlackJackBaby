@@ -8,10 +8,11 @@ Card::Card() {
 Card::~Card() {
 
 }
+/*
 void Card::operator=(const Card& other) {
 	_mark = other.get_mark();
 	_number = other.get_number();
-}
+}*/
 bool Card::operator==(const Card& other){
 	if (_mark == other.get_mark() 
 		&& _number == other.get_number())return true;

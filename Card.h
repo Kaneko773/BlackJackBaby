@@ -8,7 +8,7 @@ public:
 	virtual ~Card();
 	
 	//今回は要らない
-	void operator=(const Card& other);//代入演算子
+	//void operator=(const Card& other);//代入演算子
 	
 	bool operator==(const Card& other);//等値演算子
 
